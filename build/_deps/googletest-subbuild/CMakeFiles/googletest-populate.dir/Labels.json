@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/03cf54de6cd95172c551000164f44f76/googletest-populate.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/3b08cb30b92a416866ce52f4dbe58b1c/googletest-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/aa8c92f6784d19408a97db918b6f4ebd/googletest-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest-populate"
+		],
+		"name" : "googletest-populate"
+	}
+}
