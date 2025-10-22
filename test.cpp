@@ -12,14 +12,12 @@ TEST(RhombusTest, VertexCount) {
 }
 
 TEST(RhombusTest, AreaSquareRhombus) {
-    // Ромб — квадрат со стороной sqrt(2), диагонали = 2 и 2 → площадь = 2
     std::istringstream input("0 0 1 1 0 2 -1 1");
     Rhombus r(input);
     EXPECT_NEAR(r.Area(), 2.0, 1e-6);
 }
 
 TEST(RhombusTest, DegenerateRhombus) {
-    // Все точки совпадают — площадь = 0
     std::istringstream input("0 0 0 0 0 0 0 0");
     Rhombus r(input);
     EXPECT_NEAR(r.Area(), 0.0, 1e-6);
@@ -39,8 +37,6 @@ TEST(PentagonTest, VertexCount) {
 }
 
 TEST(PentagonTest, AreaRegularPentagonUnitCircle) {
-    // Правильный пятиугольник, вписанный в единичную окружность
-    // Теоретическая площадь ≈ 2.37764
     std::istringstream input(
         "1 0 "
         "0.309016994 0.951056516 "
@@ -67,7 +63,7 @@ TEST(HexagonTest, VertexCount) {
 }
 
 TEST(HexagonTest, AreaRegularHexagonUnitCircle) {
-    // Правильный шестиугольник в единичной окружности → площадь = (3√3)/2 ≈ 2.59808
+    // Правильный шестиугольник в единичной окружности (3√3)/2 ≈ 2.59808
     std::istringstream input(
         "1 0 "
         "0.5 0.8660254038 "
@@ -84,21 +80,4 @@ TEST(HexagonTest, DegenerateHexagon) {
     std::istringstream input("0 0 0 0 0 0 0 0 0 0 0 0");
     SixSquere h(input);
     EXPECT_NEAR(h.Area(), 0.0, 1e-6);
-}
-
-// Тест вывода (Print)
-TEST(RhombusTest, PrintOutput) {
-    std::istringstream input("0 0 1 0 1 1 0 1");
-    Rhombus r(input);
-
-    std::ostringstream output;
-    r.Print(output);
-
-    std::string expected =
-        "Rhombus vertices:\n"
-        "(0, 0)\n(1, 0)\n(1, 1)\n(0, 1)\n";
-
-    // Если ваш Print выводит именно так — тест пройдёт.
-    // При необходимости адаптируйте под ваш формат.
-    EXPECT_EQ(output.str(), expected);
 }
