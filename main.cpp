@@ -1,56 +1,103 @@
-// var21
-#include <iostream>
 #include "rhombus.h"
 #include "5-square.h"   
 #include "6-square.h"   
+#include "array.h"
 
-using namespace std;
+#include <iostream>
+#include <limits>
+#include <memory>
 
-int main()
-{
-    int continue_flag = 1;
-    while (continue_flag == 1)
-    {
-        cout << "Select the figure:\n";
-        cout << "1) Rhombus\n";
-        cout << "2) Regular Pentagon\n";
-        cout << "3) Regular Hexagon\n";
-        int choice;
-        cin >> choice;
+int main() {
+    Array figures;
+    int choice;
 
-        if (choice == 1)
-        {
-            cout << "Enter 4 vertices of the rhombus in order (A B C D):\n";
-            Rhombus rhombus(cin);
-            rhombus.Print(cout);
-            cout << "Rhombus contains " << rhombus.VertexesNumber() << " vertices.\n";
-            cout << "Area: " << rhombus.Area() << endl;
-        }
-        else if (choice == 2)
-        {
-            cout << "Enter 5 vertices of the pentagon in order:\n";
-            FiveSquere pentagon(cin);
-            pentagon.Print(cout);
-            cout << "Pentagon contains " << pentagon.VertexesNumber() << " vertices.\n";
-            cout << "Area: " << pentagon.Area() << endl;
-        }
-        else if (choice == 3)
-        {
-            cout << "Enter 6 vertices of the hexagon in order:\n";
-            SixSquere hexagon(cin);
-            hexagon.Print(cout);
-            cout << "Hexagon contains " << hexagon.VertexesNumber() << " vertices.\n";
-            cout << "Area: " << hexagon.Area() << endl;
-        }
-        else
-        {
-            cout << "Invalid choice. Please select 1, 2, or 3.\n";
+    while (true) {
+        std::cout << "\n1. Add Rhombus\n"
+                     "2. Add Pentagon (5-gon)\n"
+                     "3. Add Hexagon (6-gon)\n"
+                     "4. Print array\n"
+                     "5. Print centers\n"
+                     "6. Area\n"
+                     "7. Remove\n"
+                     "0. Exit\n"
+                     "-> ";
+
+        if (!(std::cin >> choice)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Uncorrect. Try again\n";
+            continue;
         }
 
-        cout << "\nWant to continue? (1 for yes, 0 for no): ";
-        cin >> continue_flag;
+        switch (choice) {
+            case 0:
+                return 0;
+
+            case 1: {
+                auto rh = std::make_shared<Rhombus>();
+                std::cout << "Enter 4 points ";
+                std::cin >> *rh;
+                figures.Add(rh);
+                std::cout<<"Done";
+                break;
+            }
+
+            case 2: { 
+                auto pent = std::make_shared<Fivesquere>();
+                std::cout << "Enter 5 points of pentagon (x y): ";
+                std::cin >> *pent;
+                figures.Add(pent);
+                std::cout<<"Done";
+                break;
+            }
+
+            case 3: { 
+                auto hex = std::make_shared<Sixsquere>();
+                std::cout << "Enter 6 points of hexagon (x y): ";
+                std::cin >> *hex;
+                figures.Add(hex);
+                std::cout<<"Done";
+                break;
+            }
+
+            case 4: {
+                figures.Print();
+                break;
+            }
+
+            case 5: {
+                figures.Centers();
+                break;
+            }
+
+            case 6: {
+                std::cout << "Total area: " << figures.TotalArea() << "\n";
+                break;
+            }
+
+            case 7: {
+                size_t idx;
+                std::cout << "Index: ";
+                if (std::cin >> idx) {
+                    try {
+                        figures.Remove(idx);
+                    } catch (const std::exception& e) {
+                        std::cerr << "Error: " << e.what() << "\n";
+                    }
+                } else {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid index.\n";
+                }
+                std::cout<<"Done";
+                break;
+            }
+
+            default:
+                std::cout << "Invalid choice. Try again.\n";
+                break;
+        }
     }
 
-    cout << "Finished.\n";
     return 0;
 }

@@ -1,22 +1,25 @@
-#ifndef FiveSquere_H
-#define FiveSquere_H
-
-#include <iostream>
 #include "figure.h"
 
-using namespace std;
-
-class FiveSquere : public Figure
+class Fivesquere : public Figure
 {
-private:
-    Point p1, p2, p3, p4, p5;
-public:    
-    FiveSquere();
-    FiveSquere(istream& is);
-    double Area();
-    void Print(ostream& os);
-    size_t VertexesNumber();
-    virtual ~FiveSquere();
-};
+public:
+    Fivesquere();
+    Fivesquere(const Fivesquere& other);
+    Fivesquere(Fivesquere&& other) noexcept;
+    Fivesquere& operator=(const Fivesquere& other);
+    Fivesquere& operator=(Fivesquere&& other) noexcept;
 
-#endif
+    virtual void Print(std::ostream& os) const override;
+    virtual void Read(std::istream& is) override;
+
+    virtual Point Center() const override;
+    virtual double Area() const override;
+
+    virtual operator double() const override;
+    virtual bool operator==(const Figure& other) const override;
+    ~Fivesquere();
+
+private:
+    Point* points{nullptr};
+    int count{5};
+};

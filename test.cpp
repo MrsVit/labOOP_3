@@ -86,19 +86,3 @@ TEST(HexagonTest, DegenerateHexagon) {
     EXPECT_NEAR(h.Area(), 0.0, 1e-6);
 }
 
-// Тест вывода (Print)
-TEST(RhombusTest, PrintOutput) {
-    std::istringstream input("0 0 1 0 1 1 0 1");
-    Rhombus r(input);
-
-    std::ostringstream output;
-    r.Print(output);
-
-    std::string expected =
-        "Rhombus vertices:\n"
-        "(0, 0)\n(1, 0)\n(1, 1)\n(0, 1)\n";
-
-    // Если ваш Print выводит именно так — тест пройдёт.
-    // При необходимости адаптируйте под ваш формат.
-    EXPECT_EQ(output.str(), expected);
-}

@@ -1,22 +1,25 @@
-#ifndef RHOMBUS_H
-#define rhombus_H
-
-#include <iostream>
 #include "figure.h"
-
-using namespace std;
 
 class Rhombus : public Figure
 {
-private:
-    Point p1, p2, p3, p4;
-public:    
+public:
     Rhombus();
-    Rhombus(istream& is);
-    double Area();
-    void Print(ostream& os);
-    size_t VertexesNumber();
-    virtual ~Rhombus();
-};
+    Rhombus(const Rhombus& other);
+    Rhombus(Rhombus&& other) noexcept;
+    Rhombus& operator=(const Rhombus& other);
+    Rhombus& operator=(Rhombus&& other) noexcept;
 
-#endif
+    virtual void Print(std::ostream& os) const override;
+    virtual void Read(std::istream& is) override;
+
+    virtual Point Center() const override;
+    virtual double Area() const override;
+
+    virtual operator double() const override;
+    virtual bool operator==(const Figure& other) const override;
+    ~Rhombus();
+
+private:
+    Point* points{nullptr};
+    int count{4};
+};
