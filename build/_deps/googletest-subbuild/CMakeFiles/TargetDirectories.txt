@@ -1,3 +1,0 @@
-C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
-C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/ALL_BUILD.dir
-C:/Users/Angelok/Desktop/OOp_lab3/labOOP_3/build/_deps/googletest-subbuild/CMakeFiles/ZERO_CHECK.dir
