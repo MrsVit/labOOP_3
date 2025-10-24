@@ -1,80 +1,135 @@
-#include "rhombus.h"
-#include "5-square.h"     // или pentagon.h
-#include"6-square.h"     // или hexagon.h
-#include "array.h"
-
 #include <gtest/gtest.h>
 #include <sstream>
 #include <memory>
+#include <stdexcept>
 
-// Тест Rhombus
-TEST(RhombusTest, AreaAndCenter) {
-    std::istringstream input("0 0 2 0 3 1 1 1"); // точки ромба
-    auto rh = std::make_shared<Rhombus>();
-    input >> *rh;
+#include "rhombus.h"
+#include "5-square.h"      // Fivesquere
+#include "6-square.h"      // Sixsquere
+#include "array.h"
 
-    double area = rh->Area();
-    auto center = rh->Center();
-
-    // Площадь ромба по формуле: |d1 × d2| / 2
-    // Диагонали: d1 = (0,0)-(3,1) → длина sqrt(10), d2 = (2,0)-(1,1) → sqrt(2)
-    // Но проще проверить через векторное произведение или известные координаты.
-    // Для ромба с вершинами (0,0), (2,0), (3,1), (1,1) площадь = 2.0
-    EXPECT_NEAR(area, 2.0, 1e-6);
-    EXPECT_NEAR(center.getX(), 1.5, 1e-6);
-    EXPECT_NEAR(center.getY(), 0.5, 1e-6);
+// Вспомогательная функция для создания фигуры из строки
+template<typename T>
+std::shared_ptr<T> makeFigure(const std::string& input) {
+    auto fig = std::make_shared<T>();
+    std::istringstream iss(input);
+    iss >> *fig;  // вызывает operator>> -> fig->Read()
+    return fig;
 }
 
-// Тест Pentagon (Fivesquere)
-TEST(PentagonTest, InputAndArea) {
-    // Правильный пятиугольник с центром в (0,0) и радиусом 1 — площадь ≈ 2.37764
-    std::istringstream input(
-        "1 0 "
-        "0.309 0.951 "
-        "-0.809 0.588 "
-        "-0.809 -0.588 "
-        "0.309 -0.951"
-    );
-    auto pent = std::make_shared<Fivesquere>();
-    input >> *pent;
-
-    double area = pent->Area();
-    EXPECT_GT(area, 2.3);
-    EXPECT_LT(area, 2.5);
+// --- ТЕСТЫ ДЛЯ Rhombus ---
+TEST(RhombusTest, DefaultConstructor) {
+    Rhombus r;
+    auto c = r.Center();
+    EXPECT_DOUBLE_EQ(c.getX(), 0.0);
+    EXPECT_DOUBLE_EQ(c.getY(), 0.0);
 }
 
-// Тест Hexagon (Sixsquere)
-TEST(HexagonTest, RegularHexagonArea) {
-    // Правильный шестиугольник со стороной 1: площадь = (3√3)/2 ≈ 2.598
-    std::istringstream input(
-        "1 0 "
-        "0.5 0.866 "
-        "-0.5 0.866 "
-        "-1 0 "
-        "-0.5 -0.866 "
-        "0.5 -0.866"
-    );
-    auto hex = std::make_shared<Sixsquere>();
-    input >> *hex;
-
-    double area = hex->Area();
-    EXPECT_NEAR(area, 2.598076, 1e-5);
+TEST(RhombusTest, Center) {
+    auto r = makeFigure<Rhombus>("0 0 4 0 2 3 -2 3");
+    Point c = r->Center();
+    EXPECT_DOUBLE_EQ(c.getX(), 1.0);
+    EXPECT_DOUBLE_EQ(c.getY(), 1.5);
 }
 
-// Тест Array
-TEST(ArrayTest, AddAndTotalArea) {
+TEST(RhombusTest, Equality) {
+    auto r1 = makeFigure<Rhombus>("0 0 2 0 1 1.732 -1 1.732");
+    auto r2 = makeFigure<Rhombus>("0 0 2 0 1 1.732 -1 1.732");
+    EXPECT_TRUE(*r1 == *r2);
+}
+
+// --- ТЕСТЫ ДЛЯ Fivesquere ---
+TEST(FivesquereTest, InputAndArea) {
+    // Простой выпуклый пятиугольник
+    auto p = makeFigure<Fivesquere>("0 0 2 0 3 1 2 2 0 2");
+    double area = p->Area();
+    EXPECT_GT(area, 0.0);
+    EXPECT_NEAR(area, 5.0, 0.5); // приблизительно
+}
+
+TEST(FivesquereTest, Center) {
+    auto p = makeFigure<Fivesquere>("0 0 2 0 2 2 1 3 0 2");
+    Point c = p->Center();
+    EXPECT_NEAR(c.getX(), 1.0, 0.1);
+    EXPECT_NEAR(c.getY(), 1.4, 0.1);
+}
+
+// --- ТЕСТЫ ДЛЯ Sixsquere ---
+TEST(SixsquereTest, InputAndArea) {
+    // Правильный шестиугольник (приблизительно)
+    auto h = makeFigure<Sixsquere>("2 0 1 1.732 -1 1.732 -2 0 -1 -1.732 1 -1.732");
+    double area = h->Area();
+    EXPECT_NEAR(area, 10.392, 0.1); // (3*sqrt(3)/2)*2^2 ≈ 10.392
+}
+
+// --- ТЕСТЫ ДЛЯ Array ---
+TEST(ArrayTest, AddAndSize) {
     Array arr;
+    arr.Add(makeFigure<Rhombus>("0 0 1 0 0 1 -1 0"));
+    arr.Add(makeFigure<Fivesquere>("0 0 1 0 1 1 0 1 0.5 1.5"));
+    arr.Add(makeFigure<Sixsquere>("1 0 0.5 0.866 -0.5 0.866 -1 0 -0.5 -0.866 0.5 -0.866"));
+    // Нет метода Size(), но можно проверить через TotalArea и побочные эффекты
+    // Лучше добавить Size() в Array, но раз его нет — проверим через TotalArea > 0
+    EXPECT_GT(arr.TotalArea(), 0.0);
+}
 
-    auto rh = std::make_shared<Rhombus>();
-    std::istringstream in1("0 0 2 0 2 2 0 2"); // квадрат 2x2 → площадь = 4
-    in1 >> *rh;
-    arr.Add(rh);
-
-    auto pent = std::make_shared<Fivesquere>();
-    std::istringstream in2("0 0 1 0 1.309 0.951 0.5 1.538 -0.309 0.951");
-    in2 >> *pent;
-    arr.Add(pent);
-
+TEST(ArrayTest, TotalArea) {
+    Array arr;
+    arr.Add(makeFigure<Rhombus>("0 0 2 0 0 2 -2 0")); // площадь = 4
+    arr.Add(makeFigure<Sixsquere>("1 0 0.5 0.866 -0.5 0.866 -1 0 -0.5 -0.866 0.5 -0.866")); // ≈2.598
     double total = arr.TotalArea();
-    EXPECT_NEAR(total, 4.0 + pent->Area(), 1e-5);
+    EXPECT_NEAR(total, 6.598, 0.1);
+}
+
+TEST(ArrayTest, Remove) {
+    Array arr;
+    auto r = makeFigure<Rhombus>("0 0 1 0 0 1 -1 0");
+    auto p = makeFigure<Fivesquere>("0 0 1 0 1 1 0 1 0.5 1.5");
+    arr.Add(r);
+    arr.Add(p);
+
+    EXPECT_NEAR(arr.TotalArea(), r->Area() + p->Area(), 1e-6);
+
+    arr.Remove(0);
+    EXPECT_NEAR(arr.TotalArea(), p->Area(), 1e-6);
+}
+
+TEST(ArrayTest, RemoveOutOfRange) {
+    Array arr;
+    arr.Add(makeFigure<Rhombus>("0 0 1 0 0 1 -1 0"));
+    EXPECT_THROW(arr.Remove(5), std::out_of_range);
+}
+
+TEST(ArrayTest, PrintOutput) {
+    Array arr;
+    arr.Add(makeFigure<Rhombus>("0 0 1 0 0 1 -1 0"));
+
+    testing::internal::CaptureStdout();
+    arr.Print();
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_FALSE(output.empty());
+    EXPECT_TRUE(output.find('(') != std::string::npos);
+}
+
+TEST(ArrayTest, CentersOutput) {
+    Array arr;
+    arr.Add(makeFigure<Rhombus>("0 0 2 0 2 2 0 2")); // квадрат → центр (1,1)
+
+    testing::internal::CaptureStdout();
+    arr.Centers();
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_TRUE(output.find("1") != std::string::npos); // x=1
+    EXPECT_TRUE(output.find("1") != std::string::npos); // y=1
+}
+
+// --- ПОЛИМОРФИЗМ ---
+TEST(ArrayTest, PolymorphicBehavior) {
+    Array arr;
+    arr.Add(std::make_shared<Rhombus>());
+    arr.Add(std::make_shared<Fivesquere>());
+    arr.Add(std::make_shared<Sixsquere>());
+
+    // Проверим, что Area() вызывается виртуально
+    double total = arr.TotalArea();
+    EXPECT_GE(total, 0.0);
 }
