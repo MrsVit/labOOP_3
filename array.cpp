@@ -15,7 +15,6 @@ void Array::Add(Figure* figure) {
 void Array::Resize() {  
     size_t next_capacity = (capacity == 0) ? 1 : capacity * 2;
     Figure** new_data = new Figure*[next_capacity];
-
     for (size_t i = 0; i < size; ++i) {
         new_data[i] = data[i];
     }

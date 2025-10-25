@@ -9,8 +9,6 @@
 #include "6-square.h"      
 #include "array.h"
 
-// Вспомогательная функция: создаёт фигуру из строки и возвращает сырой указатель.
-// Владение передаётся вызывающему коду (в данном случае — Array).
 template<typename T>
 Figure* createFigure(const std::string& input) {
     auto fig = std::make_unique<T>();
@@ -75,7 +73,6 @@ TEST(ArrayTest, AddAndSize) {
     arr.Add(createFigure<Fivesquere>("0 0 1 0 1 1 0 1 0.5 1.5"));
     arr.Add(createFigure<Sixsquere>("1 0 0.5 0.866 -0.5 0.866 -1 0 -0.5 -0.866 0.5 -0.866"));
     EXPECT_GT(arr.TotalArea(), 0.0);
-    // Деструктор Array должен удалить все фигуры
 }
 
 TEST(ArrayTest, TotalArea) {
@@ -95,9 +92,8 @@ TEST(ArrayTest, Remove) {
 
     EXPECT_NEAR(arr.TotalArea(), r->Area() + p->Area(), 1e-6);
 
-    arr.Remove(0); // удаляет r; Array должен вызвать delete для r
+    arr.Remove(0); 
     EXPECT_NEAR(arr.TotalArea(), p->Area(), 1e-6);
-    // p будет удалён деструктором Array
 }
 
 TEST(ArrayTest, RemoveOutOfRange) {
@@ -138,5 +134,4 @@ TEST(ArrayTest, PolymorphicBehavior) {
 
     double total = arr.TotalArea();
     EXPECT_GE(total, 0.0);
-    // Array должен корректно удалить все объекты
 }
