@@ -6,12 +6,18 @@
 
 class Array {
 public:
-    void Add(std::shared_ptr<Figure> fig);
+    Array();
+    void Add(Figure* fig);
     void Remove(size_t index);
     void Print() const;
     double TotalArea() const;
     void Centers() const;
+    ~Array();
 
 private:
-    std::vector<std::shared_ptr<Figure>> data;
+    Figure** data;     
+    size_t size;       
+    size_t capacity;
+    void Resize();
+
 };

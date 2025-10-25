@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <limits>
-#include <memory>
+// <memory> не нужен — убран
 
 int main() {
     Array figures;
@@ -34,29 +34,29 @@ int main() {
                 return 0;
 
             case 1: {
-                auto rh = std::make_shared<Rhombus>();
+                Rhombus* rh = new Rhombus();
                 std::cout << "Enter 4 points ";
                 std::cin >> *rh;
                 figures.Add(rh);
-                std::cout<<"Done";
+                std::cout << "Done";
                 break;
             }
 
             case 2: { 
-                auto pent = std::make_shared<Fivesquere>();
+                Fivesquere* pent = new Fivesquere();  // имя без изменений
                 std::cout << "Enter 5 points of pentagon (x y): ";
                 std::cin >> *pent;
                 figures.Add(pent);
-                std::cout<<"Done";
+                std::cout << "Done";
                 break;
             }
 
             case 3: { 
-                auto hex = std::make_shared<Sixsquere>();
+                Sixsquere* hex = new Sixsquere();  // имя без изменений
                 std::cout << "Enter 6 points of hexagon (x y): ";
                 std::cin >> *hex;
                 figures.Add(hex);
-                std::cout<<"Done";
+                std::cout << "Done";
                 break;
             }
 
@@ -89,7 +89,7 @@ int main() {
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     std::cout << "Invalid index.\n";
                 }
-                std::cout<<"Done";
+                std::cout << "Done";
                 break;
             }
 

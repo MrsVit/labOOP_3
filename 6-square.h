@@ -22,3 +22,4 @@ private:
     Point* points{nullptr};
     int count{5};
 };
+

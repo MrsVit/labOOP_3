@@ -16,7 +16,6 @@ public:
     virtual double Area() const override;
 
     virtual operator double() const override;
-
     bool operator==(const Rhombus& other) const = default;
     virtual bool operator==(const Figure& other) const override;
     ~Rhombus();

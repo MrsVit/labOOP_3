@@ -13,6 +13,7 @@ Fivesquere::Fivesquere(const Fivesquere& other) : count(5) {
     }
 }
 
+
 Fivesquere::Fivesquere(Fivesquere&& other) noexcept : points(other.points), count(other.count) {
     other.points = nullptr;
     other.count = 0;
@@ -82,10 +83,10 @@ Fivesquere::operator double() const {
     return Area();
 }
 
-bool Fivesquere::operator==(const Figure& other) const {
+bool Fivesquere::operator==(const Figure& other) const { //Тоже самое сравнение через полиморфизм, но ещё и сравнение по точкам описаное в ручную
     if (typeid(*this) != typeid(other)) return false;
     const Fivesquere& that = static_cast<const Fivesquere&>(other);
-    if (count != that.count) return false;
+    if (count != that.count) return false; //не очень имеет смысл
     for (int i = 0; i < count; ++i) {
         if (!(points[i].getX() == that.points[i].getX() && points[i].getY() == that.points[i].getY())) return false;
     }

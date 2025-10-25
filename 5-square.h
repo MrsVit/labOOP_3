@@ -16,6 +16,7 @@ public:
     virtual double Area() const override;
 
     virtual operator double() const override;
+    
     virtual bool operator==(const Figure& other) const override;
     ~Fivesquere();
 
